@@ -9,9 +9,8 @@ ENV FR_DB_HOST=db \
     APACHE_RUN_GROUP=www-data \
     APACHE_RUN_GROUP_ID=33 \
     LIBVIPS_VERSION="8.12.1" \
-    LIBREOFFICE_VERSION="7.1.8" \
+    LIBREOFFICE_VERSION="7.2.6" \
     PHP_VERSION_SHORT="7.4"
-VOLUME ["/var/www/html", "/user-files"]
 COPY ./filerun /filerun
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -101,8 +100,6 @@ RUN apt-get update \
     && chmod +x /filerun/entrypoint.sh
 
 # Install Filerun application - moved from entrypoint
-RUN groupadd -f -g ${APACHE_RUN_GROUP_ID} ${APACHE_RUN_GROUP} && \
-    useradd -u ${APACHE_RUN_USER_ID} -g ${APACHE_RUN_GROUP} ${APACHE_RUN_USER}
 RUN curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' && \
     unzip -q /filerun.zip -d /var/www/html/ && \
     cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ && \
